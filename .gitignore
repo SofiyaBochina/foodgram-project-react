@@ -103,6 +103,7 @@ celerybeat.pid
 
 # Environments
 .env
+.env_backend
 .venv
 env/
 venv/
@@ -130,3 +131,5 @@ dmypy.json
 
 # .idea
 .idea
+.vscode/
+media/
