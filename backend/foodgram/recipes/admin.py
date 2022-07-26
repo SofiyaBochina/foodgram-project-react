@@ -1,8 +1,8 @@
 from django.contrib import admin
 
-from .models import Favorite, Ingredient, Recipe, Subscription, Tag
+from foodgram.settings import EMPTY_CONST
 
-EMPTY_CONST = '-пусто-'
+from .models import Favorite, Ingredient, Recipe, Subscription, Tag
 
 
 @admin.register(Recipe)

@@ -1,10 +1,5 @@
-import datetime as dt
-import os
-from wsgiref.util import FileWrapper
-
 from django.contrib.auth import get_user_model
 from django.db.models import Sum
-from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
 from djoser.views import UserViewSet
 from rest_framework import status, viewsets
@@ -16,6 +11,7 @@ from rest_framework.response import Response
 from recipes.models import (Favorite, Ingredient, Recipe, RecipeIngredient,
                             ShoppingCart, Subscription, Tag)
 
+from .actions import download_file
 from .filters import IngredientFilter, UserRecipeFilter
 from .permissions import IsAuthorAdminOrReadOnly, ReadOnly
 from .serializers import (IngredientSerializer, MyUserSerializer,
@@ -184,34 +180,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
             'ingredient__name',
             'ingredient__measurement_unit'
         ).annotate(amount=Sum('amount'))
-        f_data = []
-        for i, ingredient in enumerate(shopping_cart, 1):
-            f_data.append(
-                '{}) {} {} {};'.format(
-                    i,
-                    ingredient['ingredient__name'],
-                    ingredient['amount'],
-                    ingredient["ingredient__measurement_unit"]
-                )
-            )
-        f_text = '\n'.join(f_data)
-        basename = "shopping_cart"
-        suffix = dt.datetime.now().strftime("%y%m%d_%H%M%S")
-        f_name = "_".join([basename, suffix])
-        f = open(f'{f_name}.txt', 'a')
-        f.write(f_text)
-        f.close()
-        f = open(f'{f_name}.txt', 'r')
-        response = HttpResponse(
-            FileWrapper(f),
-            content_type='application/msword'
-        )
-        response['Content-Disposition'] = (
-            'attachment; '
-            f'filename="{f_name}.txt"'
-        )
-        os.remove(f'{f_name}.txt')
-        return response
+        download_file(shopping_cart)
 
     def perform_create(self, serializer):
         serializer.save(author=self.request.user)

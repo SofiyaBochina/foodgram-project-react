@@ -1,5 +1,4 @@
 import os
-from datetime import timedelta
 
 from django.core.management.utils import get_random_secret_key
 from dotenv import load_dotenv
@@ -15,7 +14,7 @@ SECRET_KEY = os.getenv('SECRET_KEY', default=get_random_secret_key())
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('DEBUG', default=True)
 
-ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', default=["*"])
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', default="*").split()
 
 
 # Application definition
@@ -131,11 +130,11 @@ REST_FRAMEWORK = {
 }
 
 DJOSER = {
-    "LOGIN_FIELD": "email",
-    "HIDE_USERS": False,
-    "PERMISSIONS": {
-        "user": ("rest_framework.permissions.IsAuthenticated",),
-        "user_list": ("rest_framework.permissions.AllowAny",)
+    'LOGIN_FIELD': 'email',
+    'HIDE_USERS': False,
+    'PERMISSIONS': {
+        'user': ('rest_framework.permissions.IsAuthenticated',),
+        'user_list': ('rest_framework.permissions.AllowAny',)
     },
     "SERIALIZERS": {
         'user_create': 'api.serializers.UserSerializer',
@@ -143,3 +142,5 @@ DJOSER = {
         'current_user': 'api.serializers.MyUserSerializer',
     }
 }
+
+EMPTY_CONST = '-пусто-'
