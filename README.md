@@ -1,3 +1,5 @@
+![example workflow](https://github.com/SofiyaBochina/foodgram-project-react/actions/workflows/foodgram_workflow.yml/badge.svg)
+
 # Foodgram Project
 Учебный проект "Продуктовый помощник".
 

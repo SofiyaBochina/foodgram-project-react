@@ -78,6 +78,14 @@ class MyUserViewSet(UserViewSet):
             id=user.id
         )
         queryset = [i.author for i in user.subscriber.all()]
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = SubscriptionSerializer(
+                page,
+                many=True,
+                context={'request': request},
+            )
+            return self.get_paginated_response(serializer.data)
         serializer = SubscriptionSerializer(
             queryset,
             many=True,
@@ -180,7 +188,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
             'ingredient__name',
             'ingredient__measurement_unit'
         ).annotate(amount=Sum('amount'))
-        download_file(shopping_cart)
+        return download_file(shopping_cart)
 
     def perform_create(self, serializer):
         serializer.save(author=self.request.user)
