@@ -16,7 +16,7 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         with open(
             os.path.join(
-                BASE_DIR, 'static\data\{}'.format(options['files'][0])
+                BASE_DIR, 'static/data/{}'.format(options['files'][0])
             ),
             encoding='utf-8'
         ) as f:
