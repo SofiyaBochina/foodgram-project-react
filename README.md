@@ -27,11 +27,11 @@ docker compose exec -T backend python manage.py collectstatic --no-input
 ## Как заполнить базу данными
 Импортируете игридиенты:
 ```
-docker compose exec -T python manage.py import_csv_data ingredients.csv
+docker compose exec -T backend python manage.py import_csv_data ingredients.csv
 ```
 Создайте суперпользователя:
 ```
-docker compose exec -T python manage.py createsuperuser
+docker compose exec -T backend python manage.py createsuperuser
 ```
 После этого вы сможете добавлять новые объекты в базу данных через админку проекта по адресу http://127.0.0.1:8000/admin.
 
