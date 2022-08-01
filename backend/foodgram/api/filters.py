@@ -5,7 +5,7 @@ from recipes.models import Ingredient, Recipe, Tag
 
 class UserRecipeFilter(FilterSet):
     tags = filters.ModelMultipleChoiceFilter(
-        field_name='tag__slug',
+        field_name='tags__slug',
         to_field_name="slug",
         queryset=Tag.objects.all()
     )
@@ -30,7 +30,7 @@ class UserRecipeFilter(FilterSet):
     def filter_is_in_shopping_cart(self, queryset, name, value):
         if value and self.request.user.is_authenticated:
             queryset = queryset.filter(
-                cart_shoppings__user=self.request.user
+                shopping_cart__user=self.request.user
             )
         return queryset
 
